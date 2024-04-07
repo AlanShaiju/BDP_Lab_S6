@@ -1,0 +1,33 @@
+library(readr)
+library(dplyr)
+library(nnet)
+wine_data <- read_csv("/home/oem/Alan Shaiju - S6/winequality-red.csv")
+print(wine_data)
+wine_data$quality <- as.factor(wine_data$quality)
+set.seed(123) 
+ind <- sample(2, nrow(wine_data), replace = TRUE, prob = c(0.7, 0.3))
+train_data <- wine_data[ind == 1, ]
+test_data <- wine_data[ind == 2, ]
+train_data$quality <- relevel(train_data$quality, ref = "6")
+wine_model <- multinom(quality ~ ., data = train_data)
+predictions <- predict(wine_model, newdata = test_data)
+accuracy <- mean(predictions == test_data$quality)
+cat("Accuracy of the model:", accuracy, "\n")
+fixed_acidity<-as.numeric(readline('Enter fixed acidity:'))
+volatile_acidity<-as.numeric(readline('Enter fixed volatile acidity:'))
+citric_acid<-as.numeric(readline('Enter citric acid:'))
+residual_sugar<-as.numeric(readline('Enter residual sugar:'))
+chlorides<-as.numeric(readline('Enter chlorides:'))
+free_sulpur_dioxide<-as.numeric(readline('Enter free sulphur dioxide:'))
+total_sulfur_dioxide<-as.numeric(readline('Enter total sulphur dioxide:'))
+density <-as.numeric(readline('Enter density:'))
+pH<-as.numeric(readline('Enter pH:'))
+sulphates<-as.numeric(readline('Enter sulphates:'))
+alcohol<-as.numeric(readline('Enter alcohol:'))
+input_values <- c(fixed_acidity, volatile_acidity, citric_acid, residual_sugar, 
+                  chlorides, free_sulpur_dioxide, total_sulfur_dioxide, density, 
+                  pH, sulphates, alcohol)
+input_data <- data.frame(t(input_values))
+colnames(input_data) <- colnames(test_data)[-which(names(test_data) == "quality")]
+prediction <- predict(wine_model, newdata = input_data)
+cat("Predicted wine quality based on user input:", prediction, "\n")
