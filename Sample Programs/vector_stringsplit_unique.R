@@ -1,0 +1,10 @@
+mystring<-readline(prompt=('Enter String:'))
+mystring1<-strsplit(mystring,'')[[1]]
+x<-unique(mystring1)
+cat('String: ',mystring)
+cat('Unique elements: ',x)
+y<-c(1,2,3,4,5,6,7,8,86,3,24,223,2456,32,2,23,5,5,3,2,66,4,3,2,24535,9)
+z<-c(2,3,4,5,4,33)
+uy<-unique(y)
+cat('Number set: ',y)
+cat('Unique set of numbers: ',uy)
